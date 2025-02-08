@@ -1,8 +1,11 @@
-from typing import Any, List, Dict
-import requests
+from typing import Any, Dict, List
+
 import psycopg2
+import requests
+
 from src.config import config
 from src.hh_api import HeadHunterAPI
+
 
 def create_database() -> None:
     """Создание базы данных и таблиц для хранения данных об организациях и вакансиях"""
@@ -29,15 +32,18 @@ def create_database() -> None:
     conn = psycopg2.connect(**params)
 
     with conn.cursor() as cur:
-        cur.execute("""
+        cur.execute(
+            """
             CREATE TABLE IF NOT EXISTS companies (
                 company_id SERIAL PRIMARY KEY,
                 company_name VARCHAR(255) NOT NULL
             )
-        """)
+        """
+        )
 
     with conn.cursor() as cur:
-        cur.execute("""
+        cur.execute(
+            """
             CREATE TABLE IF NOT EXISTS vacancies (
                 vacancies_id SERIAL PRIMARY KEY,
                 vacancy_name VARCHAR(255) NOT NULL,
@@ -46,10 +52,12 @@ def create_database() -> None:
                 url VARCHAR(255),
                 company_id INTEGER REFERENCES companies(company_id)
             )
-        """)
+        """
+        )
 
     conn.commit()
     conn.close()
+
 
 def save_data_to_database() -> None:
     """Сохранение данных об организациях и вакансиях в БД"""
@@ -70,7 +78,7 @@ def save_data_to_database() -> None:
                 ON CONFLICT (company_id) DO NOTHING
                 RETURNING company_id
                 """,
-                (employer['id'], employer["name"]),
+                (employer["id"], employer["name"]),
             )
 
             result = cur.fetchone()
@@ -80,8 +88,9 @@ def save_data_to_database() -> None:
                 continue
 
             for vacancy in hh_vacancy:
-                if int(vacancy['employer']['id']) == int(company_id):
-                    cur.execute("""
+                if int(vacancy["employer"]["id"]) == int(company_id):
+                    cur.execute(
+                        """
                         INSERT INTO vacancies (company_id, vacancy_name, salary_from, salary_to, url)
                         VALUES (%s, %s, %s, %s, %s)
                         """,

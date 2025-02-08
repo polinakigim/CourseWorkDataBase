@@ -2,6 +2,7 @@ import psycopg2
 
 from src.abstract_classes import DBManagerABC
 
+
 class DBManager(DBManagerABC):
 
     def __init__(self, params_db: dict, db_name: str):
@@ -81,7 +82,9 @@ class DBManager(DBManagerABC):
         conn = psycopg2.connect(**self.params_db)
 
         with conn.cursor() as cur:
-            cur.execute(f"""SELECT * FROM vacancies WHERE vacancy_name LIKE '%{key_word}%'""")
+            cur.execute(
+                f"""SELECT * FROM vacancies WHERE vacancy_name LIKE '%{key_word}%'"""
+            )
             result = cur.fetchall()
 
         conn.close()

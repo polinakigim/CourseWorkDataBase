@@ -1,5 +1,5 @@
-from src.db_manager import DBManager
 from src.config import config
+from src.db_manager import DBManager
 from src.utils import create_database, save_data_to_database
 
 
@@ -9,9 +9,11 @@ def main():
     create_database()
     save_data_to_database()
 
-    db_company = DBManager(params, 'test')
+    db_company = DBManager(params, "test")
 
-    print("\nДобро пожаловать в систему! Пожалуйста, выберите одно из следующих действий:")
+    print(
+        "\nДобро пожаловать в систему! Пожалуйста, выберите одно из следующих действий:"
+    )
 
     menu = """
     1. Получить количество вакансий по каждой компании
@@ -66,5 +68,6 @@ def main():
     else:
         print("\nНекорректный ввод. Пожалуйста, выберите вариант от 1 до 5.")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
