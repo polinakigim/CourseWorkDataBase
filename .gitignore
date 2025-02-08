@@ -3,11 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-dattabase.ini
+
 
 # C extensions
 *.so
-
+dattabase.ini
 # Distribution / packaging
 .Python
 build/
